@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Deadline Countdown - October 31st</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 500px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+
+        .title {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        .deadline-info {
+            font-size: 1.2em;
+            color: #4ecdc4;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .current-time {
+            font-size: 1em;
+            color: #95e1d3;
+            margin-bottom: 30px;
+        }
+
+        .countdown-display {
+            background: rgba(22, 33, 62, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 2px solid #4ecdc4;
+        }
+
+        .days-container {
+            margin-bottom: 20px;
+        }
+
+        .days-number {
+            font-size: 4em;
+            font-weight: bold;
+            color: #ff6b6b;
+            font-family: 'Courier New', monospace;
+        }
+
+        .days-label {
+            font-size: 1.2em;
+            color: #4ecdc4;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .time-display {
+            font-size: 2em;
+            font-family: 'Courier New', monospace;
+            color: #ffeaa7;
+            margin: 15px 0;
+        }
+
+        .time-labels {
+            font-size: 0.8em;
+            color: #95e1d3;
+            margin-bottom: 15px;
+        }
+
+        .info-section {
+            background: rgba(22, 33, 62, 0.6);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            border: 1px solid #4ecdc4;
+        }
+
+        .total-hours {
+            font-size: 1.1em;
+            color: #fd79a8;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .percentage {
+            font-size: 1em;
+            color: #a29bfe;
+            margin-bottom: 8px;
+        }
+
+        .motivation {
+            font-size: 1.1em;
+            color: #00cec9;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .days-info {
+            font-size: 1em;
+            color: #95e1d3;
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-screenshot {
+            background: #00b894;
+            color: white;
+        }
+
+        .btn-share {
+            background: #0984e3;
+            color: white;
+        }
+
+        .btn-refresh {
+            background: #e17055;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-ring {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .progress-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #00cec9 var(--progress), transparent var(--progress));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-inner {
+            width: 80%;
+            height: 80%;
+            background: #1a1a2e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9em;
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+
+        .whatsapp-tip {
+            background: rgba(37, 211, 102, 0.2);
+            border: 1px solid #25d366;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #95e1d3;
+        }
+
+        .urgent {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 600px) {
+            .title { font-size: 2em; }
+            .days-number { font-size: 3em; }
+            .time-display { font-size: 1.5em; }
+            .container { width: 95%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">🎯 DEADLINE COUNTDOWN</h1>
+        <div class="deadline-info">October 31st, 2025 - Midnight</div>
+        <div class="current-time" id="currentTime">Loading current time...</div>
+        
+        <div class="countdown-display" id="countdownDisplay">
+            <div class="days-container">
+                <div class="days-number" id="daysNumber">00</div>
+                <div class="days-label">DAYS</div>
+            </div>
+            
+            <div class="time-display" id="timeDisplay">00:00:00</div>
+            <div class="time-labels">HOURS : MINUTES : SECONDS</div>
+            
+            <div class="progress-ring">
+                <div class="progress-circle" id="progressCircle">
+                    <div class="progress-inner" id="progressText">0%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="total-hours" id="totalHours">0 hours remaining</div>
+            <div class="percentage" id="percentage">0% of October elapsed</div>
+            <div class="motivation" id="motivation">💪 Keep pushing! You've got this!</div>
+            <div class="days-info" id="daysInfo">📅 Time remaining calculation...</div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-screenshot" onclick="takeScreenshot()">📸 Screenshot</button>
+            <button class="btn btn-share" onclick="shareWhatsApp()">📱 Share WhatsApp</button>
+            <button class="btn btn-refresh" onclick="location.reload()">🔄 Refresh</button>
+        </div>
+
+        <div class="whatsapp-tip">
+            <strong>💡 WhatsApp Sharing Tips:</strong><br>
+            • Take a screenshot to share the current countdown<br>
+            • Send this webpage link to your group<br>
+            • Perfect for group motivation and deadline tracking!
+        </div>
+    </div>
+
+    <script>
+        // Set target date - October 31st, 2025 at 11:59:59 PM
+        const targetDate = new Date('2025-10-31T23:59:59').getTime();
+        const startDate = new Date('2025-10-01').getTime(); // October 1st for percentage calculation
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const timeRemaining = targetDate - now;
+
+            // Update current time
+            const currentTimeStr = new Date().toLocaleString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+            document.getElementById('currentTime').textContent = `Current: ${currentTimeStr}`;
+
+            if (timeRemaining <= 0) {
+                // Countdown finished
+                document.getElementById('daysNumber').textContent = '00';
+                document.getElementById('timeDisplay').textContent = '00:00:00';
+                document.getElementById('motivation').textContent = '🎉 DEADLINE REACHED! 🎉';
+                document.getElementById('totalHours').textContent = 'Deadline has arrived!';
+                document.getElementById('countdownDisplay').classList.add('urgent');
+                return;
+            }
+
+            // Calculate time components
+            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+            // Calculate total hours and percentage
+            const totalHours = Math.floor(timeRemaining / (1000 * 60 * 60));
+            const totalDuration = targetDate - startDate;
+            const elapsedDuration = now - startDate;
+            const percentage = Math.max(0, Math.min(100, (elapsedDuration / totalDuration) * 100));
+
+            // Update display
+            document.getElementById('daysNumber').textContent = days.toString().padStart(2, '0');
+            document.getElementById('timeDisplay').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            document.getElementById('totalHours').textContent = `${totalHours.toLocaleString()} hours remaining`;
+            document.getElementById('percentage').textContent = `${percentage.toFixed(1)}% of October elapsed`;
+            document.getElementById('progressText').textContent = `${percentage.toFixed(0)}%`;
+
+            // Update progress circle
+            document.getElementById('progressCircle').style.setProperty('--progress', `${percentage}%`);
+
+            // Update motivational message
+            let motivation;
+            if (days > 30) {
+                motivation = "🚀 Great! Plenty of time to prepare!";
+            } else if (days > 14) {
+                motivation = "⏰ Time to get serious! Two weeks left!";
+            } else if (days > 7) {
+                motivation = "🔥 Final week approaching! Stay focused!";
+            } else if (days > 1) {
+                motivation = "⚡ Final countdown! Give it your all!";
+            } else {
+                motivation = "🎯 FINAL DAY! This is it!";
+            }
+            document.getElementById('motivation').textContent = motivation;
+
+            // Update days info
+            let daysInfo;
+            if (days === 1) {
+                daysInfo = "📅 TOMORROW is the deadline!";
+            } else if (days === 0) {
+                daysInfo = "📅 TODAY is the deadline!";
+            } else {
+                const weeks = Math.floor(days / 7);
+                const remainingDays = days % 7;
+                daysInfo = `📅 ${days} days = ${weeks} weeks, ${remainingDays} days`;
+            }
+            document.getElementById('daysInfo').textContent = daysInfo;
+
+            // Add urgency styling
+            const countdownDisplay = document.getElementById('countdownDisplay');
+            const daysNumber = document.getElementById('daysNumber');
+            
+            if (days <= 1) {
+                countdownDisplay.classList.add('urgent');
+                daysNumber.style.color = '#ff3838';
+            } else if (days <= 7) {
+                daysNumber.style.color = '#ff6348';
+            } else if (days <= 14) {
+                daysNumber.style.color = '#ffa502';
+            } else {
+                daysNumber.style.color = '#ff6b6b';
+            }
+        }
+
+        function takeScreenshot() {
+            alert('📸 Screenshot Instructions:\n\n' +
+                  '1. Windows: Press Windows + Shift + S\n' +
+                  '2. Mac: Press Cmd + Shift + 4\n' +
+                  '3. Mobile: Use your device screenshot\n\n' +
+                  'Then share the image in your WhatsApp group! 📱');
+        }
+
+        function shareWhatsApp() {
+            const message = `🎯 Deadline Countdown Update!\n\n` +
+                          `⏰ October 31st Midnight Countdown:\n` +
+                          `📅 ${document.getElementById('daysNumber').textContent} days remaining\n` +
+                          `⏱️ ${document.getElementById('timeDisplay').textContent}\n\n` +
+                          `${document.getElementById('motivation').textContent}\n\n` +
+                          `💪 Let's stay motivated and reach our deadline! 🎯`;
+            
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Update countdown every second
+        updateCountdown(); // Initial call
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
